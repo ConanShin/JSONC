@@ -272,7 +272,7 @@
    */
   JSONC.pack = function (json, bCompress) {
     var str = JSON.stringify((bCompress ? JSONC.compress(json) : json));
-    return new TextEncoder('utf-8').encode(zlib.gzipSync(Buffer.from(str, 'utf-8')))
+    return String.fromCharCode.apply(String, zlib.gzipSync(Buffer.from(str, 'utf-8')));
   };
   /**
    * Decompress a compressed JSON
@@ -307,7 +307,8 @@
    * @returns {Object}
    */
   JSONC.unpack = function (gzipped, bDecompress) {
-      var str = new TextDecoder('utf-8').decode(zlib.gunzipSync(Buffer.from(gzipped, 'base64'))),
+    var aArr = getArr(gzipped),
+      str = new TextDecoder('utf-8').decode(zlib.gunzipSync(Buffer.from(aArr, 'base64'))),
       json = JSON.parse(str);
     return bDecompress ? JSONC.decompress(json) : json;
   };
