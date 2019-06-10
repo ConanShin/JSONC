@@ -272,7 +272,8 @@
    */
   JSONC.pack = function (json, bCompress) {
     var str = JSON.stringify((bCompress ? JSONC.compress(json) : json));
-    return Base64.encode(String.fromCharCode.apply(String, gzip.zip(str,{level:9})));
+    var encoder = new TextEncoder('utf-8').encode(gzip.zip(str, {level: 9}))
+    return new TextEncoder('utf-8').encode(gzip.zip(str, {level: 9}));
   };
   /**
    * Decompress a compressed JSON
@@ -308,7 +309,7 @@
    */
   JSONC.unpack = function (gzipped, bDecompress) {
     var aArr = getArr(Base64.decode(gzipped)),
-      str = String.fromCharCode.apply(String, gzip.unzip(aArr,{level:9})),
+      str = new TextDecoder('utf-8').decode(gzip.unzip(aArr,{level:9})),
       json = JSON.parse(str);
     return bDecompress ? JSONC.decompress(json) : json;
   };
