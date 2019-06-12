@@ -1,6 +1,6 @@
-/*global gzip, Base64, zlib*/
+/*global gzip, Base64*/
 (function () {
-
+  var zlib = require('zlib')
   var root,
     JSONC = {},
     isNodeEnvironment,
