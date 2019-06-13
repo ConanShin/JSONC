@@ -1,4 +1,4 @@
-/*global gzip, Base64*/
+/*global gzip, Base64, zlib*/
 (function () {
   var root,
     JSONC = {},
